@@ -10,6 +10,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
     {
         [SerializeField]
         GameObject m_Prefab;
+        GameObject playerObject;
+
+        public List<Color> colors = new List<Color>();
+        Color selectedColor;
+
 
         public GameObject prefab
         {
@@ -31,6 +36,26 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             m_RaycastManager = GetComponent<ARRaycastManager>();
             m_AnchorManager = GetComponent<ARAnchorManager>();
+
+            playerObject = null;
+            Color customRed = new Color32(96, 28, 53, 1);
+            Color customYellow = new Color32(255, 166, 48, 1);
+            Color customDarkBlue = new Color32(46, 80, 118, 1);
+            Color customLightBlue = new Color32(77, 162, 169, 1);
+            colors.Add(customRed);
+            colors.Add(customYellow);
+            colors.Add(customDarkBlue);
+            colors.Add(customLightBlue);
+            //arCamera = GameObject.Find("AR Camera").GetComponent<Camera>();
+
+            //User assigned 1 of the 4 colors on startup
+            selectedColor = colors[Random.Range(0, colors.Count)];
+           
+        }
+        private void Start()
+        {
+            //m_Prefab.GetComponent<MeshRenderer>().material.color = selectedColor;
+            Logger.Log("colo: " + m_Prefab.GetComponent<MeshRenderer>().material.color);
         }
 
         void SetAnchorText(ARAnchor anchor, string text)
@@ -47,26 +72,28 @@ namespace UnityEngine.XR.ARFoundation.Samples
             ARAnchor anchor = null;
 
             // If we hit a plane, try to "attach" the anchor to the plane
-            if (hit.trackable is ARPlane plane)
-            {
-                var planeManager = GetComponent<ARPlaneManager>();
-                if (planeManager)
-                {
-                    Logger.Log("Creating anchor attachment.");
-                    var oldPrefab = m_AnchorManager.anchorPrefab;
-                    m_AnchorManager.anchorPrefab = prefab;
-                    anchor = m_AnchorManager.AttachAnchor(plane, hit.pose);
-                    m_AnchorManager.anchorPrefab = oldPrefab;
-                    SetAnchorText(anchor, $"Attached to plane {plane.trackableId}");
-                    return anchor;
-                }
-            }
+            //if (hit.trackable is ARPlane plane)
+            //{
+            //    var planeManager = GetComponent<ARPlaneManager>();
+            //    if (planeManager)
+            //    {
+            //        Logger.Log("Creating anchor attachment.");
+            //        var oldPrefab = m_AnchorManager.anchorPrefab;
+            //        m_AnchorManager.anchorPrefab = prefab;
+            //        anchor = m_AnchorManager.AttachAnchor(plane, hit.pose);
+            //        anchor = m_AnchorManager.AttachAnchor(plane, hit.pose);
+            //        m_AnchorManager.anchorPrefab = oldPrefab;
+            //        SetAnchorText(anchor, $"Attached to plane {plane.trackableId}");
+            //        return anchor;
+            //    }
+            //}
 
             // Otherwise, just create a regular anchor at the hit pose
             Logger.Log("Creating regular anchor.");
 
             // Note: the anchor can be anywhere in the scene hierarchy
             var gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
+            //gameObject.GetComponent<MeshRenderer>().material.color = selectedColor;
 
             // Make sure the new GameObject has an ARAnchor component
             anchor = gameObject.GetComponent<ARAnchor>();
@@ -79,6 +106,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
             return anchor;
         }
+
+      
 
         void Update()
         {
@@ -102,6 +131,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                 // Create a new anchor
                 var anchor = CreateAnchor(hit);
+                
+           
                 if (anchor)
                 {
                     // Remember the anchor so we can remove it later.
@@ -111,6 +142,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 {
                     Logger.Log("Error creating anchor");
                 }
+         
+            }
+
+           
+
+            if (Input.GetTouch(0).phase == TouchPhase.Ended)
+            {
+                playerObject = null;
             }
         }
 
