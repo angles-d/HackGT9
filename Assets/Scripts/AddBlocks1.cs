@@ -25,6 +25,10 @@ public class AddBlocks1 : MonoBehaviour
     void Start()
     {
         playerObject = null;
+
+        //grab current position based on touch
+        transform.position = Input.GetTouch(0).position;
+
         arCamera = GameObject.Find("AR Camera").GetComponent<Camera>();
 
     }
@@ -46,7 +50,8 @@ public class AddBlocks1 : MonoBehaviour
                     if (hit.collider.gameObject.tag == "Spawn")
                     {
                         playerObject = hit.collider.gameObject;
-
+                        playerObject.transform.position += Vector3.up * 0.1f;
+                        addPrefab(playerObject.transform.position);
                     }
                     else
                     {
