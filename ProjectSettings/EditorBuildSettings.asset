@@ -113,6 +113,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestScene 1.unity
     guid: d55d225d386f23545b180aa5c1313a09
+  - enabled: 0
+    path: Assets/Scenes/add image rec.unity
+    guid: d95fdf20318b94a4cba3c498931e3329
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 8ed547795fa1d084f88026881711488c,
       type: 2}
