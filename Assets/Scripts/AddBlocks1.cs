@@ -56,6 +56,8 @@ public class AddBlocks1 : MonoBehaviour
                     else
                     {
                         addPrefab(hits[0].pose.position);
+                        playerObject.GetComponent<AudioSource>().Play();
+
 
                     }
                 }
