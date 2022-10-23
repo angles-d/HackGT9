@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44402185, g: 0.49316472, b: 0.57223153, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1655,7 +1655,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654883405}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1754,7 +1754,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654883405}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1766,8 +1766,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 0d9f3756701794c919dd818f332d024f, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2173,7 +2172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68fbc98b9133456f8a212911c899469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Prefab: {fileID: 8045370151182219024, guid: 11a533e30df510949bc9e55aec7dd2f8,
+  m_Prefab: {fileID: 8045370151182219024, guid: a061243ad35eda44ab98ac1005ae8242,
     type: 3}
   gameBoard: {fileID: 242963595}
   boardWidth: 0.5
@@ -2204,7 +2203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beae32e1912b34424bb5f15077ed8fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ParticipantPrefab: {fileID: 8045370151182219024, guid: 11a533e30df510949bc9e55aec7dd2f8,
+  m_ParticipantPrefab: {fileID: 8045370151182219024, guid: a061243ad35eda44ab98ac1005ae8242,
     type: 3}
 --- !u!114 &2131359417
 MonoBehaviour:
@@ -2231,7 +2230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AnchorPrefab: {fileID: 8045370151182219024, guid: 11a533e30df510949bc9e55aec7dd2f8,
+  m_AnchorPrefab: {fileID: 8045370151182219024, guid: a061243ad35eda44ab98ac1005ae8242,
     type: 3}
 --- !u!114 &2131359419
 MonoBehaviour:
