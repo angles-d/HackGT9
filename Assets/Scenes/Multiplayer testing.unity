@@ -2042,6 +2042,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Prefab: {fileID: 8045370151182219024, guid: 11a533e30df510949bc9e55aec7dd2f8,
     type: 3}
+  gameBoard: {fileID: 242963595}
+  boardWidth: 0.5
   colors: []
 --- !u!114 &2131359415
 MonoBehaviour:

@@ -10,11 +10,16 @@ namespace UnityEngine.XR.ARFoundation.Samples
     {
         [SerializeField]
         GameObject m_Prefab;
-        GameObject playerObject;
+        public GameObject gameBoard;
+        public float boardWidth;
 
         public List<Color> colors = new List<Color>();
         Color selectedColor;
 
+
+
+        //board boarders
+        float left, right, top, bottom; 
 
         public GameObject prefab
         {
@@ -37,7 +42,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
             m_RaycastManager = GetComponent<ARRaycastManager>();
             m_AnchorManager = GetComponent<ARAnchorManager>();
 
-            playerObject = null;
+            Vector3 boardPos = gameBoard.transform.position;
+            float halfWidth = boardWidth / 2.0f;
+            left = boardPos.x - halfWidth;
+            right = boardPos.x + halfWidth;
+            top = boardPos.z + halfWidth;
+            bottom = boardPos.z - halfWidth;
+
+
             Color customRed = new Color32(96, 28, 53, 1);
             Color customYellow = new Color32(255, 166, 48, 1);
             Color customDarkBlue = new Color32(46, 80, 118, 1);
@@ -69,40 +81,27 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         ARAnchor CreateAnchor(in ARRaycastHit hit)
         {
+           
             ARAnchor anchor = null;
+            Vector3 hitPos = hit.pose.position;
 
-            // If we hit a plane, try to "attach" the anchor to the plane
-            //if (hit.trackable is ARPlane plane)
-            //{
-            //    var planeManager = GetComponent<ARPlaneManager>();
-            //    if (planeManager)
-            //    {
-            //        Logger.Log("Creating anchor attachment.");
-            //        var oldPrefab = m_AnchorManager.anchorPrefab;
-            //        m_AnchorManager.anchorPrefab = prefab;
-            //        anchor = m_AnchorManager.AttachAnchor(plane, hit.pose);
-            //        anchor = m_AnchorManager.AttachAnchor(plane, hit.pose);
-            //        m_AnchorManager.anchorPrefab = oldPrefab;
-            //        SetAnchorText(anchor, $"Attached to plane {plane.trackableId}");
-            //        return anchor;
-            //    }
-            //}
+            if (hitPos.x > right || hitPos.x < left || hitPos.z < top || hitPos.z > bottom) {
+                // Otherwise, just create a regular anchor at the hit pose
+                Logger.Log("Creating regular anchor.");
 
-            // Otherwise, just create a regular anchor at the hit pose
-            Logger.Log("Creating regular anchor.");
+                // Note: the anchor can be anywhere in the scene hierarchy
+                var gameObject = Instantiate(prefab, hitPos + new Vector3(0, 0.2f, 0), hit.pose.rotation);
+                //gameObject.GetComponent<MeshRenderer>().material.color = selectedColor;
 
-            // Note: the anchor can be anywhere in the scene hierarchy
-            var gameObject = Instantiate(prefab, hit.pose.position + new Vector3(0,0.2f,0), hit.pose.rotation);
-            //gameObject.GetComponent<MeshRenderer>().material.color = selectedColor;
+                // Make sure the new GameObject has an ARAnchor component
+                anchor = gameObject.GetComponent<ARAnchor>();
+                if (anchor == null)
+                {
+                    anchor = gameObject.AddComponent<ARAnchor>();
+                }
 
-            // Make sure the new GameObject has an ARAnchor component
-            anchor = gameObject.GetComponent<ARAnchor>();
-            if (anchor == null)
-            {
-                anchor = gameObject.AddComponent<ARAnchor>();
+                SetAnchorText(anchor, $"Anchor (from {hit.hitType})");
             }
-
-            SetAnchorText(anchor, $"Anchor (from {hit.hitType})");
 
             return anchor;
         }
@@ -140,17 +139,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
                 else
                 {
-                    Logger.Log("Error creating anchor");
+                    Logger.Log("Block out of bounds: " + hit.pose.position);
                 }
          
             }
 
            
 
-            if (Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                playerObject = null;
-            }
+           
         }
 
         static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
