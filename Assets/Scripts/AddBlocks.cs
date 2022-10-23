@@ -49,7 +49,7 @@ public class AddBlocks : MonoBehaviour
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began && playerObject == null)
             {
-                if (Physics.Raycast(r, out hit))
+                if(Physics.Raycast(r, out hit))
                 {
                     if (hit.collider.gameObject.tag == "Spawn")
                     {
@@ -57,13 +57,12 @@ public class AddBlocks : MonoBehaviour
                     }
                     else
                     {
-                        addPrefab(hits[0].pose.position);
-                        playerObject.GetComponent<AudioSource>().Play();
-                        playerObject.GetComponent<MeshRenderer>().material.color = selectedColor;
+                        addPrefab(hits[0].pose.position);  
+                        playerObject.GetComponent<MeshRenderer>().material.color = selectedColor;                  
 
                     }
-
-                } 
+                }
+              
             }
         }
 

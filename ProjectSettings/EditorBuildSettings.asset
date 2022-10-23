@@ -107,21 +107,15 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Multiplayer testing.unity
     guid: ef392538735bb48a3b991efcccaf1272
   - enabled: 0
     path: Assets/Scenes/TestScene 1.unity
     guid: d55d225d386f23545b180aa5c1313a09
-<<<<<<< Updated upstream
   - enabled: 0
     path: Assets/Scenes/add image rec.unity
     guid: d95fdf20318b94a4cba3c498931e3329
-=======
-  - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: 4dfe03ea6ae4f35448598e88d914ebf3
->>>>>>> Stashed changes
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 8ed547795fa1d084f88026881711488c,
       type: 2}
