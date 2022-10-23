@@ -9,12 +9,8 @@ public class ImageRecognition : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] placeablePrefabs;
-    private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>();
+    private GameObject[] spawnedPrefabs = new GameObject[1];
     private ARTrackedImageManager ar;
-    public bool firstImageScanned = false; //tracks if first image was scanned
-    public bool vidDone = false; //tracks if first image was scanned
-    public GameObject finalVid = null;
-    public VideoPlayer finalVidPlayer;
 
     public void Awake()
     {
@@ -25,18 +21,11 @@ public class ImageRecognition : MonoBehaviour
             GameObject newPrefab = Instantiate(prefab, Vector3.zero, Quaternion.identity);
             newPrefab.name = prefab.name;
             newPrefab.SetActive(false);
-            spawnedPrefabs.Add(prefab.name, newPrefab);
+            spawnedPrefabs[0] = newPrefab;
         }
-        print("helllooooo");
+       
 
-        foreach (KeyValuePair<string, GameObject> kvp in spawnedPrefabs)
-        {
-            print("ooooo");
-            print("Key, Value" +  kvp.Key + ":"+ kvp.Value);
-        }
-
-        finalVid = spawnedPrefabs["Activist"];
-        finalVidPlayer = finalVid.GetComponentInChildren<VideoPlayer>();
+     
     }
 
     public void OnEnable()
@@ -53,8 +42,7 @@ public class ImageRecognition : MonoBehaviour
     {
         foreach (ARTrackedImage tracked in args.added)
         {
-            //tracks that the first image was scanned for the vignette controller
-            if (!firstImageScanned) { firstImageScanned = true; }
+            print("helllooooooo");
             SetImage(tracked);
         }
 
@@ -65,17 +53,13 @@ public class ImageRecognition : MonoBehaviour
 
         foreach (ARTrackedImage tracked in args.removed)
         {
-            spawnedPrefabs[tracked.name].SetActive(false);
+            spawnedPrefabs[0].SetActive(false);
         }
 
     }
 
     private void Update()
     {
-        if (finalVid != null && !vidDone && finalVid.activeSelf)
-        {
-            checkVidsEnd();
-        }
     }
 
     private void SetImage(ARTrackedImage trackedImage)
@@ -85,7 +69,7 @@ public class ImageRecognition : MonoBehaviour
         Quaternion rotation = trackedImage.transform.rotation;
 
 
-        GameObject newPrefab = spawnedPrefabs[name];
+        GameObject newPrefab = spawnedPrefabs[0];
 
 
         newPrefab.transform.position = position;
@@ -93,31 +77,14 @@ public class ImageRecognition : MonoBehaviour
 
         newPrefab.SetActive(true);
   
-        foreach (GameObject pref in spawnedPrefabs.Values)
-        {
-            if (pref.name != name)
-            {
-                pref.SetActive(false);
-            }
-        }
+        //foreach (GameObject pref in spawnedPrefabs.Values)
+        //{
+        //    if (pref.name != name)
+        //    {
+        //        pref.SetActive(false);
+        //    }
+        //}
 
     }
-
-    //check if the user is done playing the video
-
-    void checkVidsEnd()
-    {
-        //Debug.Log("frame" +   finalVidPlayer.frame);
-        if (finalVidPlayer.frame >= 1400)
-        {
-            Debug.Log("vid done");
-            vidDone = true;
-        }
-    }
-
-    
-
-
-
 
 }

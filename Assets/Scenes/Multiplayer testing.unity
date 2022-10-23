@@ -1970,7 +1970,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131359413}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
   m_Name: 
@@ -2081,7 +2081,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131359413}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dea56a9eaadd1c439095de4f9a371cb, type: 3}
   m_Name: 
@@ -2089,8 +2089,7 @@ MonoBehaviour:
   m_SerializedLibrary: {fileID: 11400000, guid: 0b9626bcfcf084ff982e83ad4e5b9231,
     type: 2}
   m_MaxNumberOfMovingImages: 0
-  m_TrackedImagePrefab: {fileID: 6581028865750248655, guid: 5dfc70f778f514ed492c697bf41a632c,
-    type: 3}
+  m_TrackedImagePrefab: {fileID: 0}
 --- !u!114 &2131359424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2098,13 +2097,10 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131359413}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46bc07d3f5cfa4fe8a4d23e613bad642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeablePrefabs: []
-  firstImageScanned: 0
-  vidDone: 0
-  finalVid: {fileID: 0}
-  finalVidPlayer: {fileID: 0}
+  placeablePrefabs:
+  - {fileID: 6581028865750248655, guid: 5dfc70f778f514ed492c697bf41a632c, type: 3}
