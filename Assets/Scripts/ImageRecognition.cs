@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.XR;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation.Samples;
 using UnityEngine.Video;
 
 public class ImageRecognition : MonoBehaviour
@@ -11,12 +12,16 @@ public class ImageRecognition : MonoBehaviour
     private GameObject prefab;
     private ARTrackedImageManager ar;
     private ARPlaneManager plane;
+    public AnchorCreator anchor;
 
     public void Awake()
     {
         ar = FindObjectOfType<ARTrackedImageManager>();
         plane = GetComponent<ARPlaneManager>();
+        anchor = GetComponent<AnchorCreator>();
         prefab.SetActive(false);
+        anchor.enabled = false;
+        plane.enabled = false;
 
     }
 
@@ -68,6 +73,7 @@ public class ImageRecognition : MonoBehaviour
 
         prefab.SetActive(true);
         plane.enabled = true;
+        anchor.enabled = true;
   
 
     }

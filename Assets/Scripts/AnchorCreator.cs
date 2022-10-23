@@ -11,6 +11,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         [SerializeField]
         GameObject m_Prefab;
         public GameObject gameBoard;
+        private Collider gbCollider;
         public float boardWidth;
 
         public List<Color> colors = new List<Color>();
@@ -42,12 +43,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
             m_RaycastManager = GetComponent<ARRaycastManager>();
             m_AnchorManager = GetComponent<ARAnchorManager>();
 
-            Vector3 boardPos = gameBoard.transform.position;
-            float halfWidth = boardWidth / 2.0f;
-            left = boardPos.x - halfWidth;
-            right = boardPos.x + halfWidth;
-            top = boardPos.z + halfWidth;
-            bottom = boardPos.z - halfWidth;
+            //Vector3 boardPos = gameBoard.transform.position;
+            //float halfWidth = boardWidth / 2.0f;
+            //left = boardPos.x - halfWidth;
+            //right = boardPos.x + halfWidth;
+            //top = boardPos.z + halfWidth;
+            //bottom = boardPos.z - halfWidth;
 
 
             Color customRed = new Color32(96, 28, 53, 1);
@@ -67,6 +68,15 @@ namespace UnityEngine.XR.ARFoundation.Samples
         private void Start()
         {
             //m_Prefab.GetComponent<MeshRenderer>().material.color = selectedColor;
+            Vector3 boardPos = gameBoard.transform.position;
+            float halfWidth = boardWidth / 2.0f;
+            left = boardPos.x - halfWidth;
+            right = boardPos.x + halfWidth;
+            top = boardPos.z + halfWidth;
+            bottom = boardPos.z - halfWidth;
+
+            gbCollider = gameBoard.GetComponent<Collider>();
+
             Logger.Log("colo: " + m_Prefab.GetComponent<MeshRenderer>().material.color);
         }
 
@@ -85,7 +95,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
             ARAnchor anchor = null;
             Vector3 hitPos = hit.pose.position;
 
-            if (hitPos.x > right || hitPos.x < left || hitPos.z < top || hitPos.z > bottom) {
+            if (gbCollider.bounds.Contains(hitPos)){ 
+
+            //if (hitPos.x > right || hitPos.x < left || hitPos.z > top || hitPos.z < bottom) {
                 // Otherwise, just create a regular anchor at the hit pose
                 Logger.Log("Creating regular anchor.");
 
@@ -102,6 +114,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
                 SetAnchorText(anchor, $"Anchor (from {hit.hitType})");
             }
+
 
             return anchor;
         }
@@ -136,10 +149,11 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 {
                     // Remember the anchor so we can remove it later.
                     m_Anchors.Add(anchor);
+                    Logger.Log("Block in bounds: " + hit.pose);
                 }
                 else
                 {
-                    Logger.Log("Block out of bounds: " + hit.pose.position);
+                    Logger.Log("Block out of bounds: " + hit.pose);
                 }
          
             }
