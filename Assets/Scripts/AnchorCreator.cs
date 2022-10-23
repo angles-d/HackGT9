@@ -110,7 +110,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 Logger.Log("Creating regular anchor.");
 
                 // Note: the anchor can be anywhere in the scene hierarchy
-                var gameObject = Instantiate(prefab, pos + new Vector3(0, 0.1f, 0), rot);
+                var gameObject = Instantiate(prefab, pos, rot);
                 //gameObject.GetComponent<MeshRenderer>().material.color = selectedColor;
 
                 // Make sure the new GameObject has an ARAnchor component
@@ -171,6 +171,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             // Perform the raycast
             if (m_RaycastManager.Raycast(touch.position, s_Hits, trackableTypes))
             {
+                //gbCollider = gameBoard.GetComponent<Collider>();
                 RaycastHit physicsHit;
                 Ray r = arCamera.ScreenPointToRay(Input.GetTouch(0).position);
                 if (Physics.Raycast(r, out physicsHit))

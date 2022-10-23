@@ -60,7 +60,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             var textManager = anchor.GetComponent<CanvasTextManager>();
             if (textManager)
             {
-                textManager.text = sessionId.Equals(session.subsystem.sessionId) ? "Local" : "Remote";
+                textManager.text = sessionId.Equals(session.subsystem.sessionId) ? "Me" : "You";
             }
 
             var colorizer = anchor.GetComponent<Colorizer>();
