@@ -92,7 +92,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             Logger.Log("Creating regular anchor.");
 
             // Note: the anchor can be anywhere in the scene hierarchy
-            var gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
+            var gameObject = Instantiate(prefab, hit.pose.position + new Vector3(0,0.2f,0), hit.pose.rotation);
             //gameObject.GetComponent<MeshRenderer>().material.color = selectedColor;
 
             // Make sure the new GameObject has an ARAnchor component

@@ -62,7 +62,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             {
                 textManager.text = sessionId.Equals(session.subsystem.sessionId) ? "Local" : "Remote";
             }
-            //print("")
 
             var colorizer = anchor.GetComponent<Colorizer>();
             if (colorizer)
@@ -71,7 +70,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 unsafe
                 {
                     var bytes = *(byte128*)&sessionId;
-                    
                     colorizer.color = new Color(
                         bytes.data[0] / 255f,
                         bytes.data[4] / 255f,

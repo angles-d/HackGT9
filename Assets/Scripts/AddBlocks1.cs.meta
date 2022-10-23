@@ -3,7 +3,10 @@ guid: 093d8f06e6beb344983ff92ea61caf1b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - aRRaycastManager: {instanceID: 0}
+  - playerPrefab: {fileID: 8045370151182219024, guid: 11a533e30df510949bc9e55aec7dd2f8,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
