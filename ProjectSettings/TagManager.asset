@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Spawn
+  - BlockTop
+  - Block
   layers:
   - Default
   - TransparentFX

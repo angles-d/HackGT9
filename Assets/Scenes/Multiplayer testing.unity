@@ -931,7 +931,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.29
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1662,8 +1662,7 @@ LineRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2171,6 +2170,7 @@ MonoBehaviour:
     type: 3}
   gameBoard: {fileID: 242963595}
   boardWidth: 0.5
+  arCamera: {fileID: 1899596479}
   colors: []
 --- !u!114 &2131359415
 MonoBehaviour:

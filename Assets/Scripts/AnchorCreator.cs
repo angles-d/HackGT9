@@ -13,6 +13,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
         public GameObject gameBoard;
         private Collider gbCollider;
         public float boardWidth;
+        public Camera arCamera;
+
+        GameObject hitBlock;
+        GameObject unTop;
+        GameObject selTop;
+
+        Vector3 blockOffset = new Vector3(0, 0.25f, 0);
 
         public List<Color> colors = new List<Color>();
         Color selectedColor;
@@ -89,20 +96,21 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
         }
 
-        ARAnchor CreateAnchor(in ARRaycastHit hit)
+        ARAnchor CreateAnchor(Vector3 pos, Quaternion rot)
         {
            
             ARAnchor anchor = null;
-            Vector3 hitPos = hit.pose.position;
+            //Vector3 hitPos = hit.position;
 
-            if (gbCollider.bounds.Contains(hitPos)){ 
+            //if (gbCollider.bounds.Contains(pos))
+            //{
 
-            //if (hitPos.x > right || hitPos.x < left || hitPos.z > top || hitPos.z < bottom) {
+                //if (hitPos.x > right || hitPos.x < left || hitPos.z > top || hitPos.z < bottom) {
                 // Otherwise, just create a regular anchor at the hit pose
                 Logger.Log("Creating regular anchor.");
 
                 // Note: the anchor can be anywhere in the scene hierarchy
-                var gameObject = Instantiate(prefab, hitPos + new Vector3(0, 0.2f, 0), hit.pose.rotation);
+                var gameObject = Instantiate(prefab, pos + new Vector3(0, 0.1f, 0), rot);
                 //gameObject.GetComponent<MeshRenderer>().material.color = selectedColor;
 
                 // Make sure the new GameObject has an ARAnchor component
@@ -112,8 +120,33 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     anchor = gameObject.AddComponent<ARAnchor>();
                 }
 
-                SetAnchorText(anchor, $"Anchor (from {hit.hitType})");
-            }
+                //SetAnchorText(anchor, $"Anchor (from {hit.hitType})");
+            //}
+            //} else
+            //{
+            //    //RaycastHit physicsHit;
+            //    //Ray r = arCamera.ScreenPointToRay(Input.GetTouch(0).position);
+            //    //if (Physics.Raycast(r, out physicsHit))
+            //    //{
+            //    //    Logger.Log("physics raycas");
+            //        if (physicsHit.collider.gameObject.tag == "BlockTop")
+            //        {
+            //            Logger.Log("Physics Hit: stacking block.");
+
+            //            // Note: the anchor can be anywhere in the scene hierarchy
+            //            var gameObject = Instantiate(prefab, hitPos + new Vector3(0, 0.025f, 0), hit.pose.rotation);
+            //            //gameObject.GetComponent<MeshRenderer>().material.color = selectedColor;
+
+            //            // Make sure the new GameObject has an ARAnchor component
+            //            anchor = gameObject.GetComponent<ARAnchor>();
+            //            if (anchor == null)
+            //            {
+            //                anchor = gameObject.AddComponent<ARAnchor>();
+            //            }
+            //        }
+        
+            //    //}
+            //}
 
 
             return anchor;
@@ -138,28 +171,64 @@ namespace UnityEngine.XR.ARFoundation.Samples
             // Perform the raycast
             if (m_RaycastManager.Raycast(touch.position, s_Hits, trackableTypes))
             {
-                // Raycast hits are sorted by distance, so the first one will be the closest hit.
-                var hit = s_Hits[0];
+                RaycastHit physicsHit;
+                Ray r = arCamera.ScreenPointToRay(Input.GetTouch(0).position);
+                if (Physics.Raycast(r, out physicsHit))
+                {
+                    var otherObject = physicsHit.collider.gameObject;
+                    if (otherObject.tag == "Block")
+                    {
+                        unTop = otherObject.transform.GetChild(0).gameObject;
+                        selTop = otherObject.transform.GetChild(1).gameObject;
+                        unTop.SetActive(false);
+                        selTop.SetActive(true);
+                        Logger.Log("Physics Hit Block: stacking block.");
 
-                // Create a new anchor
-                var anchor = CreateAnchor(hit);
-                
-           
-                if (anchor)
-                {
-                    // Remember the anchor so we can remove it later.
-                    m_Anchors.Add(anchor);
-                    Logger.Log("Block in bounds: " + hit.pose);
+                        var anchor = CreateAnchor(selTop.transform.position + blockOffset, otherObject.transform.rotation);
+                        //hitPos = physicsHit.pose;
+                        if (anchor)
+                        {
+                            // Remember the anchor so we can remove it later.
+                            m_Anchors.Add(anchor);
+                            Logger.Log("StackBlock: ");
+                        }
+                        else
+                        {
+                            Logger.Log("Failed to stakc ");
+                        }
+                    }
+                    else
+                    {
+                        // Raycast hits are sorted by distance, so the first one will be the closest hit.
+                        var hit = s_Hits[0];
+
+                        // Create a new anchor
+                        if (gbCollider.bounds.Contains(hit.pose.position))
+                        {
+                            var anchor = CreateAnchor(hit.pose.position, hit.pose.rotation);
+
+                            if (anchor)
+                            {
+                                // Remember the anchor so we can remove it later.
+                                m_Anchors.Add(anchor);
+                                Logger.Log("Block in bounds: " + hit.pose);
+                            }
+                            else
+                            {
+                                Logger.Log("Block out of bounds: " + hit.pose);
+                            }
+                        }
+
+                       
+                    }
+
+
+                    
+
                 }
-                else
-                {
-                    Logger.Log("Block out of bounds: " + hit.pose);
-                }
-         
+
+
             }
-
-           
-
            
         }
 
