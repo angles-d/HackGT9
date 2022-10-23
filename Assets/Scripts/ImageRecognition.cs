@@ -8,24 +8,16 @@ using UnityEngine.Video;
 public class ImageRecognition : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] placeablePrefabs;
-    private GameObject[] spawnedPrefabs = new GameObject[1];
+    private GameObject prefab;
     private ARTrackedImageManager ar;
+    private ARPlaneManager plane;
 
     public void Awake()
     {
         ar = FindObjectOfType<ARTrackedImageManager>();
-        foreach (GameObject prefab in placeablePrefabs)
-        {
-            //instantiates a physical version of the prefab
-            GameObject newPrefab = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            newPrefab.name = prefab.name;
-            newPrefab.SetActive(false);
-            spawnedPrefabs[0] = newPrefab;
-        }
-       
+        plane = GetComponent<ARPlaneManager>();
+        prefab.SetActive(false);
 
-     
     }
 
     public void OnEnable()
@@ -42,7 +34,6 @@ public class ImageRecognition : MonoBehaviour
     {
         foreach (ARTrackedImage tracked in args.added)
         {
-            print("helllooooooo");
             SetImage(tracked);
         }
 
@@ -53,7 +44,7 @@ public class ImageRecognition : MonoBehaviour
 
         foreach (ARTrackedImage tracked in args.removed)
         {
-            spawnedPrefabs[0].SetActive(false);
+            prefab.SetActive(false);
         }
 
     }
@@ -69,21 +60,15 @@ public class ImageRecognition : MonoBehaviour
         Quaternion rotation = trackedImage.transform.rotation;
 
 
-        GameObject newPrefab = spawnedPrefabs[0];
+        //GameObject newPrefab = prefab;
 
 
-        newPrefab.transform.position = position;
-        newPrefab.transform.rotation = rotation;
+        prefab.transform.position = position;
+        prefab.transform.rotation = rotation;
 
-        newPrefab.SetActive(true);
+        prefab.SetActive(true);
+        plane.enabled = true;
   
-        //foreach (GameObject pref in spawnedPrefabs.Values)
-        //{
-        //    if (pref.name != name)
-        //    {
-        //        pref.SetActive(false);
-        //    }
-        //}
 
     }
 
